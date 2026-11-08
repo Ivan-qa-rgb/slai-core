@@ -1,0 +1,6 @@
+﻿ollama
+PyJWT
+passlib[bcrypt]
+bcrypt==4.0.1
+pypdf
+python-docx

@@ -1,0 +1,35 @@
+﻿# Базы данных
+*.db
+*.sqlite
+*.sqlite3
+
+# Резервные копии и архивы
+*.backup*
+*_backup*
+_backup_archive/
+_snapshots/
+archive/
+
+# Загруженные документы
+uploads/
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Секреты
+.env
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+test-contract.pdf
+test-specification.docx

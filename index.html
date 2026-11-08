@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLAI — Аудит внешнеэкономических сделок</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">SLAI</div>
+
+    <div id="authBadge" class="badge hidden">
+        <span class="dot"></span>
+        <span id="authUserRole"></span>
+    </div>
+</header>
+
+<main class="container">
+
+    <h1>Аудит внешнеэкономических сделок</h1>
+    
+    <!-- Авторизация -->
+<section class="card">
+    <h2>Авторизация</h2>
+
+    <div id="authForm">
+        <div class="form-row">
+            <div class="field">
+                <label for="authEmail">Email</label>
+                <input
+                    id="authEmail"
+                    type="email"
+                    autocomplete="username"
+                    placeholder="admin@slai.local"
+                >
+            </div>
+
+            <div class="field">
+                <label for="authPassword">Пароль</label>
+
+                <div class="password-field">
+                    <input
+                        id="authPassword"
+                        type="password"
+                        autocomplete="current-password"
+                        placeholder="Введите пароль"
+                    >
+
+                    <button
+                        id="togglePassword"
+                        type="button"
+                        class="password-toggle"
+                        aria-label="Показать пароль"
+                    >
+                        Показать
+                    </button>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="authRole">Роль при регистрации</label>
+                <select id="authRole">
+                    <option value="admin">Администратор</option>
+                    <option value="manager">Менеджер</option>
+                    <option value="viewer">Наблюдатель</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="authLogin" type="button">Войти</button>
+            <button id="authRegister" type="button">Создать аккаунт</button>
+        </div>
+
+        <div id="authStatus" class="status"></div>
+    </div>
+
+    <div id="authInfo" class="hidden">
+        <p class="auth-user">
+            Вы вошли как
+            <strong id="authUserEmail"></strong>
+        </p>
+
+        <button id="authLogout" type="button">Выйти</button>
+    </div>
+</section>
+
+    <!-- Сделка -->
+    <section class="card">
+        <h2>Данные сделки</h2>
+
+        <div class="form-row">
+            <div class="field">
+                <label for="supplier_name">Поставщик</label>
+                <input
+                    id="supplier_name"
+                    type="text"
+                    placeholder="Shenzhen Tech Co."
+                >
+            </div>
+
+            <div class="field">
+                <label for="product_name">Товар</label>
+                <input
+                    id="product_name"
+                    type="text"
+                    placeholder="LED panels"
+                >
+            </div>
+        </div>
+
+        <div class="form-row three">
+            <div class="field">
+                <label for="quantity">Количество</label>
+                <input
+                    id="quantity"
+                    type="number"
+                    min="1"
+                    placeholder="100"
+                >
+            </div>
+
+            <div class="field">
+                <label for="unit_price">Цена за единицу</label>
+                <input
+                    id="unit_price"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="250"
+                >
+            </div>
+
+            <div class="field">
+                <label for="currency">Валюта</label>
+                <select id="currency">
+                    <option value="USD">USD</option>
+                    <option value="CNY">CNY</option>
+                    <option value="EUR">EUR</option>
+                    <option value="RUB">RUB</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row three">
+            <div class="field">
+                <label for="incoterm">Incoterm</label>
+                <select id="incoterm">
+                    <option value="">Не выбран</option>
+                    <option value="EXW">EXW</option>
+                    <option value="FCA">FCA</option>
+                    <option value="FOB">FOB</option>
+                    <option value="CFR">CFR</option>
+                    <option value="CIF">CIF</option>
+                    <option value="DAP">DAP</option>
+                    <option value="DDP">DDP</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="payment_terms">Условия оплаты</label>
+                <input
+                    id="payment_terms"
+                    type="text"
+                    placeholder="30% deposit, 70% before shipment"
+                >
+            </div>
+
+            <div class="field">
+                <label for="production_days">Срок производства, дней</label>
+                <input
+                    id="production_days"
+                    type="number"
+                    min="1"
+                    placeholder="30"
+                >
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="newDealButton" type="button" onclick="newDeal()">
+                Новая сделка
+            </button>
+
+            <button id="saveButton" type="button" onclick="saveDeal()">
+                Сохранить сделку
+            </button>
+
+            <button id="deleteButton" type="button" onclick="deleteDeal()">
+                Удалить сделку
+            </button>
+        </div>
+
+        <div id="status" class="status">Сначала выберите сделку</div>
+    </section>
+
+    <!-- Сделки -->
+    <section class="card">
+        <div class="card-head">
+            <h2>Сохранённые сделки</h2>
+
+            <button id="loadDealsButton" type="button" onclick="loadDeals()">
+                Обновить список
+            </button>
+        </div>
+
+        <div id="dealsList" class="list-block">
+            <p>Загрузка сделок...</p>
+        </div>
+    </section>
+
+    <!-- Документы -->
+    <section class="card">
+        <h2>Документы сделки</h2>
+
+        <div class="form-row">
+            <div class="field">
+                <label for="documentType">Тип документа</label>
+                <select id="documentType">
+                    <option value="contract">Договор</option>
+                    <option value="specification">Спецификация</option>
+                    <option value="payment">Подтверждение депозита</option>
+                    <option value="readiness">Готовность к отгрузке</option>
+                    <option value="quality">Документ о качестве</option>
+                    <option value="invoice">Инвойс</option>
+                    <option value="other">Другое</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="documentFile">Файл</label>
+                <input
+                    id="documentFile"
+                    type="file"
+                    accept=".txt,.md,.csv,.pdf,.docx"
+                >
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="uploadButton" type="button" onclick="uploadDocument()">
+                Загрузить документ
+            </button>
+
+            <button id="loadDocumentsButton" type="button" onclick="loadDealDocuments()">
+                Обновить документы
+            </button>
+        </div>
+
+        <div id="uploadStatus" class="status"></div>
+
+        <div id="documentsList" class="list-block">
+            <p>Сначала выберите сделку.</p>
+        </div>
+    </section>
+
+    <!-- Аудит -->
+    <section class="card">
+        <h2>Аудит SLAI</h2>
+
+        <p class="card-subtitle">
+            SLAI проверит данные, документы, оплату, поставщика и условия поставки,
+            рассчитает стоимость и сформирует отчёт.
+        </p>
+
+        <button id="runButton" type="button" onclick="runAudit()">
+            Запустить аудит SLAI
+        </button>
+    </section>
+
+    <!-- Отчёт -->
+    <section id="report" class="report hidden"></section>
+
+</main>
+
+<footer class="footer">
+    SLAI — локальное агентное ядро аудита внешнеэкономических сделок
+</footer>
+
+<script src="auth.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

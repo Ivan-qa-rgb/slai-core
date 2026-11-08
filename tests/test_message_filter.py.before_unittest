@@ -1,0 +1,41 @@
+﻿from slai.api.routes import _clean_supplier_message
+
+class FakeResult:
+    def __init__(self, audit):
+        self.audit = audit
+
+audit = {
+    "risk_level": "insufficient_data",
+    "missing_information": [
+        "документы, подтверждающие экспортное оформление",
+        "документы о качестве",
+        "подтверждение готовности товара к отгрузке"
+    ],
+    "risks": [
+        {
+            "title": "тсутствие экспортного оформления",
+            "description": "ет документов для экспортного оформления.",
+            "severity": "high"
+        },
+        {
+            "title": "ет документа о качестве",
+            "description": "ачество не подтверждено.",
+            "severity": "medium"
+        }
+    ],
+    "recommendations": [
+        "обавьте документ, подтверждающий экспортное оформление.",
+        "обавьте документ о качестве."
+    ],
+    "supplier_message": {
+        "chinese": "请提供出口清关文件。",
+        "russian_translation": "ожалуйста, предоставьте документы для экспортного оформления."
+    }
+}
+
+result = _clean_supplier_message(FakeResult(audit))
+
+print(result.audit["missing_information"])
+print(result.audit["risks"])
+print(result.audit["recommendations"])
+print(result.audit["supplier_message"])

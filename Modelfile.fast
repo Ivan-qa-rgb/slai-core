@@ -1,0 +1,3 @@
+﻿FROM slai-logistics:latest
+PARAMETER num_ctx 4096
+PARAMETER num_predict 4096
